@@ -9,12 +9,7 @@
     </div>
     <div class="card-body">
         <form asp-controller="DispenserMode" asp-action="Index" method="post">
-            <select class="form-select" name="modo">
-                <option selected disabled>Seleccione el modo</option>
-                <option value="1">Billetes de Mil Y Doscientos</option>
-                <option value="2">Billetes de Quinientos Y Cien</option>
-                <option value="3">Eficiente</option>
-            </select>
+            <select class="form-select" name="modo" asp-items="ViewBag.Options"></select>
             <div class="mt-md-4 justify-content-end">
                 <button class="btn btn-outline-primary" type="submit">Seleccionar modo</button>
             </div>

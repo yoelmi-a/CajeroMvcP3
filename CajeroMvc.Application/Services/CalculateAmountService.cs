@@ -6,21 +6,25 @@ namespace CajeroMvc.Application.Services
 {
     public class CalculateAmountService
     {
-        public bool Calculate(CreateBillViewModel vm)
+        public OperationResult Calculate(CreateBillViewModel vm)
         {
-            bool success = true;
+            OperationResult result = new OperationResult();
             int thousand, fiveHundred, twoHundred, oneHundred, total;
             if (vm.Amount % 100 != 0 || vm.Amount < 100)
             {
-                success = false;
-                return success;
+                result.Sucess = false;
+                result.Message = "El cajero solo dispensa papeletas de 100 en adelante";
+                return result;
             }
             switch (vm.Mode)
             {
                 case (int)DispenserMode.MilYDoscientos:
                     if (vm.Amount % 200 != 0)
                     {
-                        success = false;
+                        int montoEjemplo = (vm.Amount / 200) * 200;
+                        result.Sucess = false;
+                        result.Message = $"Este cajero dispensa papeletas de 200 y 1000, coloque un monto adecuado ejemplo ${montoEjemplo}";
+                        return result;
                     }
                     else
                     {
@@ -67,7 +71,7 @@ namespace CajeroMvc.Application.Services
                     });
                     break;
             }
-            return success;
+            return result;
         }
 
         public List<BillViewModel> GetAll()
