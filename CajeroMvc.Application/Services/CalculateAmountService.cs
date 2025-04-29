@@ -9,7 +9,7 @@ namespace CajeroMvc.Application.Services
         public bool Calculate(CreateBillViewModel vm)
         {
             bool success = true;
-            int thousand, fiveHundred, twoHundred, oneHundred;
+            int thousand, fiveHundred, twoHundred, oneHundred, total;
             if (vm.Amount % 100 != 0 || vm.Amount < 100)
             {
                 success = false;
@@ -24,40 +24,46 @@ namespace CajeroMvc.Application.Services
                     }
                     else
                     {
+                        total = vm.Amount;
                         thousand = vm.Amount / 1000;
                         twoHundred = (vm.Amount % 1000) / 200;
                         BillsRepository.Instance.Bills.Add(new BillViewModel
                         {
                             Thousand = thousand,
                             TwoHundred = twoHundred,
-                            Total = vm.Amount
+                            Total = total
                         });
                     }
                     break;
 
                 case (int)DispenserMode.QuinientosYCien:
+                    total = vm.Amount;
                     fiveHundred = vm.Amount / 500;
                     oneHundred = (vm.Amount % 500) / 100;
                     BillsRepository.Instance.Bills.Add(new BillViewModel
                     {
                         FiveHundred = fiveHundred,
                         OneHundred = oneHundred,
-                        Total = vm.Amount
+                        Total = total
                     });
                     break;
 
                 default:
+                    total = vm.Amount;
                     thousand = vm.Amount / 1000;
-                    fiveHundred = (vm.Amount % 1000) / 500;
-                    twoHundred = (vm.Amount % 500) / 200;
-                    oneHundred = (vm.Amount % 200) / 100;
+                    vm.Amount = vm.Amount - (thousand * 1000);
+                    fiveHundred = vm.Amount / 500;
+                    vm.Amount = vm.Amount - (fiveHundred * 500);
+                    twoHundred = vm.Amount / 200;
+                    vm.Amount = vm.Amount - (twoHundred * 200);
+                    oneHundred = vm.Amount / 100;
                     BillsRepository.Instance.Bills.Add(new BillViewModel
                     {
                         Thousand = thousand,
                         FiveHundred = fiveHundred,
                         TwoHundred = twoHundred,
                         OneHundred = oneHundred,
-                        Total = vm.Amount
+                        Total = total
                     });
                     break;
             }

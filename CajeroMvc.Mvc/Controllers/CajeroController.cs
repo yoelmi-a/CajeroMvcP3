@@ -1,4 +1,5 @@
 ﻿using CajeroMvc.Application.Services;
+using CajeroMvc.Application.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CajeroMvc.Mvc.Controllers
@@ -15,14 +16,21 @@ namespace CajeroMvc.Mvc.Controllers
         }
         public IActionResult Index(int? dispenserMode)
         {
-            ViewBag.Mode = dispenserMode;
-            return View();
+            var facturas = _service.GetAll();
+            ViewBag.Mode = dispenserMode ?? 3;
+            return View(facturas);
         }
 
         [HttpPost]
-        public IActionResult Index(int monto)
+        public IActionResult Index(CreateBillViewModel vm)
         {
-            throw new NotImplementedException();
+            _service.Calculate(vm);
+            return RedirectToRoute(new 
+            { 
+                controller = "Cajero", 
+                Action = "Index", 
+                dispenserMode = (int)_modeService.GetDispenserMode() 
+            });
         }
     }
 }

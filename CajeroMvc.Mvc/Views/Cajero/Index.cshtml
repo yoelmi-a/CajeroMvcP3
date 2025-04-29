@@ -1,4 +1,4 @@
-﻿
+﻿@model List<CajeroMvc.Application.ViewModels.BillViewModel>
 @{
     ViewData["Title"] = "Index";
 }
@@ -26,11 +26,12 @@
             break;
     }
     <div class="card-body">
-        <form class="needs-validation" novalidate>
+        <form asp-controller="Cajero" asp-action="Index" method="post" class="needs-validation" novalidate>
             <label for="Monto" class="form-label">Monto a retirar</label>
             <div class="input-group has-validation">
                 <span class="input-group-text" id="MoneySign">$</span>
-                <input type="number" class="form-control" id="Monto" required/>
+                <input type="number" class="form-control" id="Amount" name="Amount" required/>
+                <input type="hidden" name="Mode" value="@ViewBag.Mode"/>
                 <div class="invalid-feedback">
                     Ingrese un monto
                 </div>
@@ -39,6 +40,55 @@
                 <button class="btn btn-outline-primary" type="submit">Retirar monto</button>
             </div>
         </form>
+
+        @if (Model.Count > 0)
+        {
+            @foreach(var item in Model)
+            {
+                <div class="card" style="font-family: monospace">
+                    <div class="card-header bg-light"><strong>Factura</strong></div>
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Billetes</th>
+                                    <th>Cantidad</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>$100</td>
+                                    <td>@item.OneHundred</td>
+                                    <td>@((item.OneHundred * 100).ToString("C"))</td>
+                                </tr>
+                                <tr>
+                                    <td>$200</td>
+                                    <td>@item.TwoHundred</td>
+                                    <td>@((item.TwoHundred * 200).ToString("C"))</td>
+                                </tr>
+                                <tr>
+                                    <td>$500</td>
+                                    <td>@item.FiveHundred</td>
+                                    <td>@((item.FiveHundred * 500).ToString("C"))</td>
+                                </tr>
+                                <tr>
+                                    <td>$1000</td>
+                                    <td>@item.Thousand</td>
+                                    <td>@((item.Thousand * 1000).ToString("C"))</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="2">Total</th>
+                                    <th>@item.Total.ToString("C")</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            }
+        }
         <script>
             (() => {
               const forms = document.querySelectorAll('.needs-validation')
