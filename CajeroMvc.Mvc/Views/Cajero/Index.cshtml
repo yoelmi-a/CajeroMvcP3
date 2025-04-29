@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Dispensador de billetes</h1>
+<div class="card">
+    @switch (ViewBag.Mode)
+    {
+        case 1:
+            <div class="card-header bg-primary text-light">
+                Modo 1000 y 200
+            </div>
+            break;
+
+        case 2:
+            <div class="card-header bg-primary text-light">
+                Modo 500 y 100
+            </div>
+            break;
+
+        default:
+            <div class="card-header bg-primary text-light">
+                Modo Eficiente
+            </div>
+            break;
+    }
+    <div class="card-body">
+        <form class="needs-validation" novalidate>
+            <label for="Monto" class="form-label">Monto a retirar</label>
+            <div class="input-group has-validation">
+                <span class="input-group-text" id="MoneySign">$</span>
+                <input type="number" class="form-control" id="Monto" required/>
+                <div class="invalid-feedback">
+                    Ingrese un monto
+                </div>
+            </div>
+            <div class="mt-md-4 justify-content-end">
+                <button class="btn btn-outline-primary" type="submit">Retirar monto</button>
+            </div>
+        </form>
+        <script>
+            (() => {
+              const forms = document.querySelectorAll('.needs-validation')
+
+              // Loop over them and prevent submission
+              Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                  if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                  }
+
+                  form.classList.add('was-validated')
+                }, false)
+              })
+            })()
+        </script>
+    </div>
+</div>
+

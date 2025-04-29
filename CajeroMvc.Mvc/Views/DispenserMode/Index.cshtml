@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Dispensador de billetes</h1>
+<div class="card">
+    <div class="card-header bg-primary text-light">
+        Modos
+    </div>
+    <div class="card-body">
+        <form asp-controller="DispenserMode" asp-action="Index" method="post">
+            <select class="form-select" name="modo">
+                <option selected disabled>Seleccione el modo</option>
+                <option value="1">Billetes de Mil Y Doscientos</option>
+                <option value="2">Billetes de Quinientos Y Cien</option>
+                <option value="3">Eficiente</option>
+            </select>
+            <div class="mt-md-4 justify-content-end">
+                <button class="btn btn-outline-primary" type="submit">Seleccionar modo</button>
+            </div>
+        </form>
+    </div>
+</div>
+
